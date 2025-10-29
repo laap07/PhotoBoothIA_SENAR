@@ -1081,9 +1081,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: RestartGame
+      - m_Target: {fileID: 1988064233}
+        m_TargetAssemblyTypeName: LeonardoAPI, Assembly-CSharp
+        m_MethodName: GenerateImage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2477,9 +2477,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1988064230}
-        m_TargetAssemblyTypeName: DzineAPI, Assembly-CSharp
-        m_MethodName: SetMan
+      - m_Target: {fileID: 1988064233}
+        m_TargetAssemblyTypeName: LeonardoAPI, Assembly-CSharp
+        m_MethodName: SetPrompt
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: man in the coffee plantation, holding a cup of coffee,
+            with an expression of pleasure as if enjoying a delicious, hot coffee,
+            close-up, with some foliage from the coffee plant slightly overlapping
+            him.
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1988064232}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartTimerToTakePhoto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 241187808}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2921,18 +2948,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartVerify
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &901864598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3084,7 +3099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &946917136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4558,7 +4573,7 @@ MonoBehaviour:
   - {fileID: -770405490, guid: 1444abbfdf035df41af6acf501b82703, type: 3}
   - {fileID: -227503164, guid: 2406dab12ab2656499f843305cbe0c4a, type: 3}
   - {fileID: 1238589613, guid: cea72934e135766459a5ef03fb4e1a8b, type: 3}
-  dzine: {fileID: 1988064230}
+  dzine: {fileID: 0}
 --- !u!1 &1499245060
 GameObject:
   m_ObjectHideFlags: 0
@@ -5484,10 +5499,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1988064230}
-        m_TargetAssemblyTypeName: DzineAPI, Assembly-CSharp
-        m_MethodName: SetMan
-        m_Mode: 6
+      - m_Target: {fileID: 1988064233}
+        m_TargetAssemblyTypeName: LeonardoAPI, Assembly-CSharp
+        m_MethodName: SetPrompt
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: woman in the coffee plantation, holding a cup of coffee,
+            with an expression of pleasure as if enjoying a delicious, hot coffee,
+            close-up, with some foliage from the coffee plant slightly overlapping
+            her.
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1988064232}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartTimerToTakePhoto
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5495,6 +5525,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 241187808}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1895167381
 MonoBehaviour:
@@ -5749,8 +5791,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1988064229}
-  - component: {fileID: 1988064230}
   - component: {fileID: 1988064232}
+  - component: {fileID: 1988064233}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -5773,39 +5815,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1988064230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1988064228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3ef7fa4557e0f48b563fc837db9547, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faceSwapUrls:
-  - https://static.dzine.ai/open_product/20251021/138/inpaint/1_output_1761015690013758_8GKL5.jpg
-  - https://static.dzine.ai/open_product/20251021/138/inpaint/2_output_1761015690013758_8GKL5.jpg
-  - https://static.dzine.ai/open_product/20251021/138/inpaint/3_output_1761015690013758_8GKL5.jpg
-  - https://static.dzine.ai/open_product/20251021/138/inpaint/4_output_1761015690013758_8GKL5.jpg
-  images:
-  - {fileID: 453422180}
-  - {fileID: 954465496}
-  - {fileID: 1523286272}
-  - {fileID: 165880997}
-  bgsMan:
-  - BG1_Man.png
-  - BG2_Man.png
-  - BG3_Man.png
-  bgsWomen:
-  - BG1_Women.png
-  - BG2_Women.png
-  - BG3_Women.png
-  isImageReady: 0
-  feedbackTemp: {fileID: 1025048084}
-  isMan: 0
 --- !u!114 &1988064232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5818,17 +5827,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5068ea8b9ad314cbde92213748e4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  api: {fileID: 1988064230}
+  api: {fileID: 1988064233}
   cam: {fileID: 241187812}
   photoTaked: {fileID: 1514377702}
   screens:
   - {fileID: 726000411}
   - {fileID: 933087340}
-  - {fileID: 1453338323}
   - {fileID: 1784988771}
   - {fileID: 682120496}
-  - {fileID: 379512923}
-  - {fileID: 80152547}
   - {fileID: 946917135}
   finalPhoto: {fileID: 1853806866}
   menuPrinting: 0
@@ -5837,6 +5843,29 @@ MonoBehaviour:
   qrCodeImage: {fileID: 1356525330}
   fade: {fileID: 999801430}
   blink: {fileID: 1985158849}
+--- !u!114 &1988064233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988064228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15523705f2e042c468a63d631e267380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiToken: b38a7b08-cfcb-486e-a444-dfdaad99f590
+  idInitImage: dccbfba4-b212-44d7-862b-643be394faed
+  photoURL: 
+  urlfinalImage: 
+  finalPrompt: "A man sits outdoors, holding a small teacup and saucer filled with
+    a dark liquid, likely coffee. His warm smile is directed at the camera. Behind
+    him are lush green plants and part of a wicker garden chair, suggesting a garden
+    or patio setting. The lighting is soft and natural. He\xB4s in the center of
+    the scene"
+  generationID: 
+  FinalImage: {fileID: 1853806866}
 --- !u!1 &2097702710
 GameObject:
   m_ObjectHideFlags: 0

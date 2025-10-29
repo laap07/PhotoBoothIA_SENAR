@@ -10,7 +10,8 @@ using ZXing.QrCode;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private DzineAPI api;
+    //[SerializeField] private DzineAPI api;
+    [SerializeField] private LeonardoAPI api;
     [SerializeField] private CameraView cam;
     [SerializeField] private Image photoTaked;
     [SerializeField] private List<GameObject> screens = new List<GameObject>();
@@ -99,13 +100,13 @@ public class GameManager : MonoBehaviour
     }
     public void GenerateImages()
     {
-        api.ProcessFace(index_BG);
+        api.StartUpload();
     }
     public void SetIndex(int _index)
     {
         index_BG = _index;
     }
-    public void StartVerify()
+    /*public void StartVerify()
     {      
         StartCoroutine(FirstVerifyImagesLoop());
     }
@@ -138,7 +139,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(VerifyImagesLoop());
         }
-    }
+    }*/
     public void SetImageFinal(GameObject _image)
     {
         finalPhoto.sprite = _image.GetComponent<Image>().sprite;
@@ -175,7 +176,7 @@ public class GameManager : MonoBehaviour
     }
     public void GenerateQRCode(int _index)
     {
-        Texture2D qrTexture = GenerateQRCode(api.faceSwapUrls[_index], 256, 256);
+        Texture2D qrTexture = GenerateQRCode(api.urlfinalImage, 256, 256);
         qrCodeImage.texture = qrTexture;
     }
     Texture2D GenerateQRCode(string text, int width, int height)
