@@ -7,9 +7,12 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using static LeonardoAPI;
+using System;
 
 public class LeonardoAPI : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
     public string apiToken = "SEU_TOKEN_AQUI";
     public string idInitImage = "";
     public string photoURL = "";
@@ -17,11 +20,17 @@ public class LeonardoAPI : MonoBehaviour
     public string finalPrompt = "";
     public string generationID = "";
     public Image FinalImage;
+    [HideInInspector] public string destFile = "CameraPhoto.png";
+    private void Awake()
+    {
+        Debug.Log(DateTime.Now.Ticks);
+        destFile = $"CameraPhoto{DateTime.Now.Ticks}.png";
+    }
 
     #region Init Image
     public void StartUpload()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "CameraPhoto.png");
+        string filePath = Path.Combine(Application.persistentDataPath, destFile);
         StartCoroutine(UploadCoroutine(filePath));
     }
 
@@ -142,32 +151,60 @@ public class UploadInitImage
     }
 
     // ---------- COROUTINE DE GERAÇÃO ----------
-    private IEnumerator GenerateCoroutine(string _prompt, string initImageId)
-    {  
+    private IEnumerator GenerateCoroutine(string _prompt, string _initImageId)
+    {
         var requestData = new
         {
-            // --- CORREÇÃO DO PROMPT E MODELO ---
-            prompt = _prompt, // Usamos o prompt detalhado para o close-up
-            modelId = "1e60896f-3c26-4296-8ecc-53e2afecc132", // Trocamos para o modelo de melhor fotorrealismo
-
-            // --- FIDELIDADE FACIAL (CORREÇÃO CRÍTICA) ---
-            init_image_id = string.IsNullOrEmpty(initImageId) ? null : initImageId,
-
-            // REDUÇÃO CRÍTICA: 0.5 é muito alto. Usamos 0.05 (ou 0.01) para manter o rosto.
-            init_strength = 0.5f,
-            // ---------------------------------------------
-
+            prompt = _prompt, 
+            modelId = "28aeddf8-bd19-4803-80fc-79602d1a9989", // FLUX.1 Kontext
+            styleUUID = "111dc692-d470-4eec-b791-3475abac4c46",
+            contextImages = new[]
+    {
+        new
+        {
+            type = "UPLOADED", // Tipo: A imagem foi gerada pelo Leonardo
+            id = _initImageId // O ID da imagem gerada
+        }
+    },
             num_images = 1,
-
-            // --- AUMENTO DA RESOLUÇÃO PARA QUALIDADE (Retrato) ---
-            width = 1024,
-            height = 1536,
-
-            // --- Otimizações de Qualidade ---
-            alchemy = true,
-            guidance_scale = 7,
-            @public = false
+            width = 832,
+            height = 1248, // Proporção vertical
+            @public = false,
+            contrastRatio = 0.5,
+            enhancePrompt = false,
         };
+        /* var requestData = new
+        {
+            prompt = _prompt,
+            modelId = "aa77f04e-3eec-4034-9c07-d0f619684628",
+            //init_image_id = string.IsNullOrEmpty(initImageId) ? null : initImageId,
+            num_images = 1,
+            presetStyle = "CINEMATIC",
+            width = 1024,
+            height = 576,
+            photoReal = true,
+            photoRealVersion = "v2",
+            alchemy = true,
+            @public = false,
+            controlnets = new[]
+    {
+        new
+        {
+            initImageId = _initImageId,
+            initImageType = "UPLOADED",
+            preprocessorId = 133,
+            strengthType = "High",
+        },
+                // ControlNet 2: Referência de Estilo (Style Reference Id: 67)
+        new
+        {
+            initImageId = "c2d09f63-52a4-40d3-9268-49bac641df56", // Usando a variável de ID de imagem gerada
+            initImageType = "GENERATED",
+            preprocessorId = 67,
+            strengthType = "High",
+        }
+    }
+        };*/
 
         string json = JsonConvert.SerializeObject(requestData);
 
@@ -259,6 +296,8 @@ public class UploadInitImage
                 Texture2D tex = DownloadHandlerTexture.GetContent(request);
                 Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
                 FinalImage.sprite = sprite;
+                urlfinalImage = request.url;
+                gameManager.GenerateQRCode();
                 Debug.Log($"Imagem baixada com sucesso! Tamanho: {tex.width}x{tex.height}");
             }
         }
