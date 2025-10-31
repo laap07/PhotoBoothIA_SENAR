@@ -23,6 +23,8 @@ public class LeonardoAPI : MonoBehaviour
     [HideInInspector] public string destFile = "CameraPhoto.png";
     public List<Image> FinalImages; // arraste 4 Images no Inspector
     public List<string> urlFinalImages = new List<string>();
+    [SerializeField] List<Texture2D> molduraTex = new List<Texture2D>();
+    private int molduraIndex = 0;
     private void Awake()
     {
         Debug.Log(DateTime.Now.Ticks);
@@ -162,7 +164,7 @@ public class UploadInitImage
         {
             prompt = _prompt, 
             modelId = "28aeddf8-bd19-4803-80fc-79602d1a9989", // FLUX.1 Kontext
-            styleUUID = "111dc692-d470-4eec-b791-3475abac4c46",
+            styleUUID = "7c3f932b-a572-47cb-9b9b-f20211e63b5b",
             contextImages = new[]
     {
         new
@@ -177,6 +179,7 @@ public class UploadInitImage
             @public = false,
             contrastRatio = 0.5,
             enhancePrompt = false,
+            negative_prompt = "Do not add any spots, blemishes, wrinkles, or artifacts that are not present on the person in the photo."
         };
         /* var requestData = new
         {
@@ -300,27 +303,114 @@ public class UploadInitImage
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Erro ao baixar imagem: " + request.error);
+                yield break;
             }
-            else
+
+            // Obtém a imagem baixada
+            Texture2D face = DownloadHandlerTexture.GetContent(request);
+
+            // Moldura atual
+            Texture2D bg = molduraTex[molduraIndex];
+
+            // Reduz a face proporcionalmente (ex: 60% da moldura)
+            Texture2D faceResized = ResizeToFit(face, (int)(bg.width * 0.65f), (int)(bg.height * 0.65f));
+
+            // Combina face atrás da moldura
+            Texture2D final = CombineBehindFrame(bg, faceResized);
+
+            // Cria sprite final
+            Sprite sprite = Sprite.Create(
+                final,
+                new Rect(0, 0, final.width, final.height),
+                new Vector2(0.5f, 0.5f)
+            );
+
+            if (index < FinalImages.Count)
+                FinalImages[index].sprite = sprite;
+
+            urlFinalImages.Add(request.url);
+
+            Debug.Log($"Imagem {index + 1} pronta com moldura na frente! Tamanho: {final.width}x{final.height}");
+
+            gameManager.AdvanceScreen();
+        }
+    }
+    private Texture2D ResizeToFit(Texture2D source, int maxWidth, int maxHeight)
+    {
+        float aspect = (float)source.width / source.height;
+        int newWidth = maxWidth;
+        int newHeight = (int)(newWidth / aspect);
+
+        if (newHeight > maxHeight)
+        {
+            newHeight = maxHeight;
+            newWidth = (int)(newHeight * aspect);
+        }
+
+        return ResizeTexture(source, newWidth, newHeight);
+    }
+    private Texture2D CombineBehindFrame(Texture2D frame, Texture2D face)
+    {
+        int width = frame.width;
+        int height = frame.height;
+
+        Texture2D finalTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        Color[] finalPixels = new Color[width * height];
+
+        // Inicializa com transparente
+        for (int i = 0; i < finalPixels.Length; i++)
+            finalPixels[i] = Color.clear;
+
+        int offsetY = (int)(height * 0.05f); // desloca face para baixo
+        int startX = (width - face.width) / 2;
+        int startY = (height - face.height) / 2 - offsetY;
+        startY = Mathf.Max(0, startY);
+
+        Color[] facePixels = face.GetPixels();
+        Color[] framePixels = frame.GetPixels();
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
             {
-                Texture2D tex = DownloadHandlerTexture.GetContent(request);
-                Sprite sprite = Sprite.Create(
-                    tex,
-                    new Rect(0, 0, tex.width, tex.height),
-                    new Vector2(0.5f, 0.5f)
-                );
+                int idx = y * width + x;
+                Color facePixel = Color.clear;
 
-                if (index < FinalImages.Count)
-                {
-                    FinalImages[index].sprite = sprite;
-                }
+                // Se o pixel está dentro da face
+                int fx = x - startX;
+                int fy = y - startY;
+                if (fx >= 0 && fx < face.width && fy >= 0 && fy < face.height)
+                    facePixel = facePixels[fy * face.width + fx];
 
-                urlFinalImages.Add(request.url);
+                Color framePixel = framePixels[idx];
 
-                Debug.Log($"Imagem {index + 1} baixada! Tamanho: {tex.width}x{tex.height}");
-                gameManager.AdvanceScreen();
+                // Alpha blending: frame sobre face
+                float alpha = framePixel.a + facePixel.a * (1f - framePixel.a);
+                Color blended = (framePixel * framePixel.a + facePixel * facePixel.a * (1f - framePixel.a)) / (alpha > 0f ? alpha : 1f);
+                blended.a = alpha;
+
+                finalPixels[idx] = blended;
             }
         }
+
+        finalTex.SetPixels(finalPixels);
+        finalTex.Apply();
+        return finalTex;
+    }
+    private Texture2D ResizeTexture(Texture2D source, int newWidth, int newHeight)
+    {
+        RenderTexture rt = RenderTexture.GetTemporary(newWidth, newHeight);
+        RenderTexture.active = rt;
+        Graphics.Blit(source, rt);
+
+        Texture2D newTex = new Texture2D(newWidth, newHeight, TextureFormat.RGBA32, false);
+        newTex.ReadPixels(new Rect(0, 0, newWidth, newHeight), 0, 0);
+        newTex.Apply();
+
+        RenderTexture.active = null;
+        RenderTexture.ReleaseTemporary(rt);
+
+        return newTex;
     }
 
     #endregion
@@ -330,6 +420,10 @@ public class UploadInitImage
     public void SetPrompt(string _prompt)
     {
         finalPrompt = _prompt;
+    }
+    public void SetMoldura(int _index)
+    {
+        molduraIndex = _index;
     }
     #endregion
 }

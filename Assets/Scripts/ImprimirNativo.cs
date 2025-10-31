@@ -52,8 +52,8 @@ public class ImprimirNativo : MonoBehaviour
         printer = new Printer();
 
         printer.SetPrinterSettings(
-            Orientation.Landscape,
-            150f, 100f,
+            Orientation.Portrait,
+            75f, 100f,
             300,
             ColorMode.Color,
             1,
@@ -70,30 +70,30 @@ public class ImprimirNativo : MonoBehaviour
 
             Texture2D tex = _image.texture;
 
-            // Converte Sprite para Texture2D se necessario
+            // Converte Sprite se estiver em atlas
             if (_image.packed && _image.rect != new Rect(0, 0, tex.width, tex.height))
             {
                 tex = SpriteToTexture2D(_image);
             }
 
             float width = 0, height = 0;
-            printer.GetPageSize(ref width, ref height);
-            UnityEngine.Debug.Log($"Tamanho da pagina: {width}x{height} mm");
-            UnityEngine.Debug.Log($"Tamanho da texture: {tex.width}x{tex.height}");
+            printer.GetPageSize(ref width, ref height); // deve retornar 75 x 100 agora
+            UnityEngine.Debug.Log($"Tamanho pagina: {width}x{height} mm");
+            UnityEngine.Debug.Log($"Tamanho texture: {tex.width}x{tex.height}");
 
-            // Calcula as dimensoes mantendo a proporcao
             float aspectRatio = (float)tex.width / tex.height;
             float printWidth, printHeight;
 
-            if (aspectRatio > 1) // Landscape
+            // Ajustando para 75 x 100 portrait
+            if (aspectRatio > 1f) // imagem mais larga
             {
-                printWidth = 150f;
-                printHeight = 150f / aspectRatio;
+                printWidth = width;                 // 75
+                printHeight = width / aspectRatio;  // proporcional
             }
-            else // Portrait
+            else
             {
-                printHeight = 100f;
-                printWidth = 100f * aspectRatio;
+                printHeight = height;                // 100
+                printWidth = height * aspectRatio;   // proporcional
             }
 
             // REDUZ TAMANHO EM 8%
@@ -101,19 +101,19 @@ public class ImprimirNativo : MonoBehaviour
             printWidth *= scaleFactor;
             printHeight *= scaleFactor;
 
-            // Centraliza a imagem na pagina
-            float posX = (150f - printWidth) / 2f;
-            float posY = (100f - printHeight) / 2f;
+            // Centraliza
+            float posX = (width - printWidth) / 2f;
+            float posY = (height - printHeight) / 2f;
 
-            UnityEngine.Debug.Log($"Impressao: {printWidth}x{printHeight} mm, Posicao: ({posX}, {posY})");
+            UnityEngine.Debug.Log($"Impressao final: {printWidth}x{printHeight} mm | Pos: ({posX}, {posY})");
 
             printer.SetPrintPosition(posX, posY);
             printer.PrintTexture(tex, printWidth, printHeight);
 
             printer.EndDocument();
-
             printer.ResetPrinterSettings();
             printer = null;
+
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
 
