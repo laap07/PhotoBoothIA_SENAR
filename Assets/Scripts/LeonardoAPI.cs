@@ -16,11 +16,13 @@ public class LeonardoAPI : MonoBehaviour
     public string apiToken = "SEU_TOKEN_AQUI";
     public string idInitImage = "";
     public string photoURL = "";
-    public string urlfinalImage = "";
+    //public string urlfinalImage = "";
     public string finalPrompt = "";
     public string generationID = "";
     public Image FinalImage;
     [HideInInspector] public string destFile = "CameraPhoto.png";
+    public List<Image> FinalImages; // arraste 4 Images no Inspector
+    public List<string> urlFinalImages = new List<string>();
     private void Awake()
     {
         Debug.Log(DateTime.Now.Ticks);
@@ -85,7 +87,10 @@ public class LeonardoAPI : MonoBehaviour
                 if (uploadRequest.result != UnityWebRequest.Result.Success)
                     Debug.LogError("Erro ao enviar arquivo: " + uploadRequest.error);
                 else
+                {
                     Debug.Log("Upload concluído com sucesso!");
+                    GenerateImage();
+                }
             }
         }
     }
@@ -166,7 +171,7 @@ public class UploadInitImage
             id = _initImageId // O ID da imagem gerada
         }
     },
-            num_images = 1,
+            num_images = 4,
             width = 832,
             height = 1248, // Proporção vertical
             @public = false,
@@ -260,13 +265,18 @@ public class UploadInitImage
                     response.generations_by_pk.generated_images.Count > 0 &&
                     response.generations_by_pk.status == "COMPLETE")
                 {
-                    Debug.Log("Imagem pronta! Baixando...");
-                    foreach (var img in response.generations_by_pk.generated_images)
+                    Debug.Log("Imagens prontas! Baixando...");
+
+                    int count = Mathf.Min(4, response.generations_by_pk.generated_images.Count);
+
+                    for (int i = 0; i < count; i++)
                     {
+                        var img = response.generations_by_pk.generated_images[i];
                         Debug.Log("URL da imagem: " + img.url);
-                        StartCoroutine(DownloadImage(img.url));
+                        StartCoroutine(DownloadImage(img.url, i));
                     }
-                    yield break; // imagem pronta, sair do loop
+
+                    yield break;
                 }
                 else
                 {
@@ -277,11 +287,11 @@ public class UploadInitImage
             yield return new WaitForSeconds(intervalSeconds);
         }
 
-        Debug.LogError($"Tentativas esgotadas ({maxAttempts}) e a imagem não foi gerada.");
+        Debug.LogError($"Tentativas esgotadas ({maxAttempts}) e as imagens não foram geradas.");
     }
 
     // ---------- DOWNLOAD DA IMAGEM ----------
-    private IEnumerator DownloadImage(string url)
+    private IEnumerator DownloadImage(string url, int index)
     {
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
         {
@@ -294,11 +304,21 @@ public class UploadInitImage
             else
             {
                 Texture2D tex = DownloadHandlerTexture.GetContent(request);
-                Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-                FinalImage.sprite = sprite;
-                urlfinalImage = request.url;
-                gameManager.GenerateQRCode();
-                Debug.Log($"Imagem baixada com sucesso! Tamanho: {tex.width}x{tex.height}");
+                Sprite sprite = Sprite.Create(
+                    tex,
+                    new Rect(0, 0, tex.width, tex.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+
+                if (index < FinalImages.Count)
+                {
+                    FinalImages[index].sprite = sprite;
+                }
+
+                urlFinalImages.Add(request.url);
+
+                Debug.Log($"Imagem {index + 1} baixada! Tamanho: {tex.width}x{tex.height}");
+                gameManager.AdvanceScreen();
             }
         }
     }

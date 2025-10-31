@@ -174,9 +174,9 @@ public class GameManager : MonoBehaviour
         cam.StopCamera();
         SceneManager.LoadScene(0);
     }
-    public void GenerateQRCode()
+    public void GenerateQRCode(int _index)
     {
-        Texture2D qrTexture = GenerateQRCode(api.urlfinalImage, 256, 256);
+        Texture2D qrTexture = GenerateQRCode(api.urlFinalImages[_index], 256, 256);
         qrCodeImage.texture = qrTexture;
     }
 

@@ -347,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &165880996
 RectTransform:
   m_ObjectHideFlags: 0
@@ -515,7 +515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &241187809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1004,9 +1004,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1988064233}
-        m_TargetAssemblyTypeName: LeonardoAPI, Assembly-CSharp
-        m_MethodName: GenerateImage
+      - m_Target: {fileID: 1988064232}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1089,7 +1089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &453422179
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1628,18 +1628,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SetIndex
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &553195805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1772,7 +1760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &726000412
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2404,30 +2392,6 @@ MonoBehaviour:
             and natural. He\xB4s in the center of the scene"
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartTimerToTakePhoto
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 241187808}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &805727476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3011,7 +2975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &946917136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3090,7 +3054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &954465495
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3908,18 +3872,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SetIndex
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &1183779630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4392,7 +4344,6 @@ GameObject:
   - component: {fileID: 1453338324}
   - component: {fileID: 1453338326}
   - component: {fileID: 1453338325}
-  - component: {fileID: 1453338327}
   m_Layer: 5
   m_Name: Tela3
   m_TagString: Untagged
@@ -4462,30 +4413,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453338323}
   m_CullTransparentMesh: 1
---- !u!114 &1453338327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453338323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0ee1ce864d817041af0c67981a523f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selections:
-  - {fileID: 1800760540}
-  - {fileID: 1183779630}
-  - {fileID: 553195805}
-  selectionsGeneral:
-  - {fileID: -496896632, guid: f0a6940fbb0049c4b826cf835852ec65, type: 3}
-  - {fileID: 1036987332, guid: caa624c148c66d54a86d584ff3e3ab83, type: 3}
-  - {fileID: -1909120994, guid: ac4f5f68036497641aa2d50d893694e3, type: 3}
-  - {fileID: -770405490, guid: 1444abbfdf035df41af6acf501b82703, type: 3}
-  - {fileID: -227503164, guid: 2406dab12ab2656499f843305cbe0c4a, type: 3}
-  - {fileID: 1238589613, guid: cea72934e135766459a5ef03fb4e1a8b, type: 3}
-  dzine: {fileID: 0}
 --- !u!1 &1499245060
 GameObject:
   m_ObjectHideFlags: 0
@@ -4729,7 +4656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1523286271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5191,18 +5118,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SetIndex
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &1800760540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5424,30 +5339,6 @@ MonoBehaviour:
             coffee, close-up, with some foliage from the coffee plant slightly overlapping
             her.
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1988064232}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartTimerToTakePhoto
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 241187808}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1895167381
 MonoBehaviour:
@@ -5744,8 +5635,11 @@ MonoBehaviour:
   screens:
   - {fileID: 726000411}
   - {fileID: 933087340}
+  - {fileID: 1453338323}
   - {fileID: 1784988771}
   - {fileID: 682120496}
+  - {fileID: 379512923}
+  - {fileID: 80152547}
   - {fileID: 946917135}
   finalPhoto: {fileID: 1853806866}
   menuPrinting: 0
@@ -5770,7 +5664,6 @@ MonoBehaviour:
   apiToken: b38a7b08-cfcb-486e-a444-dfdaad99f590
   idInitImage: df931f3c-212f-4c52-821f-5cf2bcc587a8
   photoURL: 
-  urlfinalImage: 
   finalPrompt: "This man sits outdoors, holding a small teacup and saucer filled
     with a dark liquid, likely coffee. His warm smile is directed at the camera.
     Behind him are lush green plants and part of a wicker garden chair, suggesting
@@ -5779,6 +5672,12 @@ MonoBehaviour:
   generationID: 
   FinalImage: {fileID: 1853806866}
   destFile: CameraPhoto.png
+  FinalImages:
+  - {fileID: 453422180}
+  - {fileID: 954465496}
+  - {fileID: 1523286272}
+  - {fileID: 165880997}
+  urlFinalImages: []
 --- !u!1 &2097702710
 GameObject:
   m_ObjectHideFlags: 0
@@ -5813,8 +5712,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000009536743, y: 0.0000014305115}
-  m_SizeDelta: {x: 563.5725, y: 130.3376}
+  m_AnchoredPosition: {x: 0.000005722046, y: 0.0000014305115}
+  m_SizeDelta: {x: 302, y: 127}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2097702712
 MonoBehaviour:
